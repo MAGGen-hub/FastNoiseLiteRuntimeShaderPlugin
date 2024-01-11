@@ -1,0 +1,1 @@
+gcc -E before.c -o compilled.c

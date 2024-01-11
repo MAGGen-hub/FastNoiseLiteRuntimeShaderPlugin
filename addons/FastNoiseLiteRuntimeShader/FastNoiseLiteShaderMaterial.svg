@@ -1,0 +1,32 @@
+<svg height="16" viewBox="0 0 16 16" width="16" xmlns="http://www.w3.org/2000/svg">
+  <defs></defs>
+  <path d="M 0.032 0.042 L 0.024 18.384 L 17.317 18.393 L 17.325 0.052 L 0.032 0.042 Z" style="fill: rgb(55, 55, 55); paint-order: fill;"></path>
+  <linearGradient x2="0" y2="16" gradientUnits="userSpaceOnUse" id="a">
+    <stop offset="0.1875" stop-color="#ff4545"></stop>
+    <stop stop-color="#ffe345"></stop>
+    <stop offset="0.3125" stop-color="#ffe345"></stop>
+    <stop stop-color="#80ff45"></stop>
+    <stop offset="0.4375" stop-color="#80ff45"></stop>
+    <stop stop-color="#45ffa2"></stop>
+    <stop offset="0.5625" stop-color="#45ffa2"></stop>
+    <stop stop-color="#45d7ff"></stop>
+    <stop offset="0.6875" stop-color="#45d7ff"></stop>
+    <stop stop-color="#8045ff"></stop>
+    <stop offset="0.8125" stop-color="#8045ff"></stop>
+    <stop stop-color="#ff4596"></stop>
+  </linearGradient>
+  <path d="M 2.969 2.996 L 2.968 4.997 L 4.992 4.998 L 4.993 2.997 L 2.969 2.996 Z" style="paint-order: fill; fill: rgb(164, 164, 164);"></path>
+  <path d="M 4.972 2.997 L 4.971 4.993 L 6.986 5.002 L 6.996 2.998 L 4.972 2.997 Z" style="paint-order: fill; fill: rgb(255, 255, 255);"></path>
+  <path d="M 6.972 3 L 6.971 5.001 L 9.009 5.002 L 9.01 3.001 L 6.972 3 Z" style="paint-order: fill; fill: rgb(227, 227, 227);"></path>
+  <path d="M 2.991 7.003 L 2.979 9.004 L 4.976 8.998 L 4.99 7.001 L 2.991 7.003 Z" style="paint-order: fill; fill: rgb(221, 221, 221);"></path>
+  <path d="M 8.963 8.978 L 8.962 11.013 L 10.986 11.014 L 10.987 8.979 L 8.963 8.978 Z" style="paint-order: fill; fill: rgb(240, 240, 240);"></path>
+  <path d="M 10.984 6.991 L 10.986 8.996 L 13.012 9.001 L 13.022 6.992 L 10.984 6.991 Z" style="fill: rgb(164, 164, 164);"></path>
+  <path d="M 8.96 11.006 L 8.959 13.024 L 10.983 13.025 L 10.984 11.007 L 8.96 11.006 Z" style="paint-order: fill; fill: rgb(157, 157, 157);"></path>
+  <path d="M 6.949 6.986 L 6.956 8.986 L 8.963 8.996 L 8.973 6.987 L 6.949 6.986 Z" style="paint-order: fill; fill: rgb(235, 235, 235);"></path>
+  <path d="M 4.97 4.972 L 4.973 7.002 L 6.955 6.986 L 6.965 4.973 L 4.97 4.972 Z" style="paint-order: fill; fill: rgb(163, 163, 163);"></path>
+  <path d="M 2.951 10.997 L 2.95 12.998 L 4.974 12.999 L 4.975 10.998 L 2.951 10.997 Z" style="paint-order: fill; fill: rgb(255, 255, 255);"></path>
+  <path d="M 4.954 10.998 L 4.953 12.999 L 6.968 13.008 L 6.978 10.999 L 4.954 10.998 Z" style="paint-order: fill; fill: rgb(160, 160, 160);"></path>
+  <path d="M 4.971 8.995 L 4.954 10.998 L 6.976 11.001 L 6.958 8.983 L 4.971 8.995 Z" style="fill: rgb(255, 255, 255); paint-order: fill;"></path>
+  <path d="M 6.956 8.98 L 6.947 11.03 L 8.971 11.031 L 8.97 8.99 L 6.956 8.98 Z" style="paint-order: fill; fill: rgb(150, 150, 150);"></path>
+  <path d="M1 2a1 1 0 0 1 1-1h8l5 5v8a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1zm2 1v10h10V7h-3a1 1 0 0 1-1-1V3z" fill="url(#a)"></path>
+</svg>

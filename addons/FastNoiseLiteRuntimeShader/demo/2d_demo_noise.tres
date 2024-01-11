@@ -1,0 +1,18 @@
+[gd_resource type="FastNoiseLite" format=3 uid="uid://c15bhr8uocwcg"]
+
+[resource]
+noise_type = 3
+seed = 7
+offset = Vector3(-23.45, 4.2, 29.55)
+fractal_type = 3
+fractal_octaves = 10
+fractal_lacunarity = 3.055
+fractal_gain = 0.65
+fractal_weighted_strength = 0.2
+domain_warp_enabled = true
+domain_warp_type = 2
+domain_warp_amplitude = 26.455
+domain_warp_frequency = 0.08
+domain_warp_fractal_type = 2
+domain_warp_fractal_octaves = 1
+domain_warp_fractal_lacunarity = 5.625

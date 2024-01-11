@@ -1,0 +1,12 @@
+[gd_resource type="FastNoiseLite" format=3 uid="uid://dbny8ymkiwlt0"]
+
+[resource]
+noise_type = 0
+seed = 4
+offset = Vector3(-28.3, 38.8, 8.45)
+fractal_type = 0
+fractal_octaves = 3
+cellular_distance_function = 3
+cellular_return_type = 0
+domain_warp_enabled = true
+domain_warp_type = 2

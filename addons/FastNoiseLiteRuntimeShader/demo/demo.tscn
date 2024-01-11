@@ -1,0 +1,431 @@
+[gd_scene load_steps=32 format=3 uid="uid://uh1bf1rson7w"]
+
+[ext_resource type="FastNoiseLite" uid="uid://dbny8ymkiwlt0" path="res://addons/FastNoiseLiteRuntimeShader/demo/cube_demo_noise.tres" id="1_vxhhv"]
+[ext_resource type="FastNoiseLite" uid="uid://dxndd7eti4emt" path="res://addons/FastNoiseLiteRuntimeShader/demo/plane_demo_noise.tres" id="2_mk0gu"]
+[ext_resource type="Shader" path="res://addons/FastNoiseLiteRuntimeShader/demo/demo_shader.gdshader" id="3_1wdp3"]
+[ext_resource type="Script" path="res://addons/FastNoiseLiteRuntimeShader/FastNoiseLiteShaderMaterial.gd" id="3_pfu0a"]
+[ext_resource type="Gradient" uid="uid://wy1rdtpj863h" path="res://addons/FastNoiseLiteRuntimeShader/demo/demo_gradient.tres" id="4_6pe42"]
+[ext_resource type="Shader" path="res://addons/FastNoiseLiteRuntimeShader/demo/demo_shader2d.gdshader" id="4_dekik"]
+[ext_resource type="FastNoiseLite" uid="uid://dl62i2nuhmgc0" path="res://addons/FastNoiseLiteRuntimeShader/demo/sphere_demo_noise.tres" id="6_n2irk"]
+[ext_resource type="FastNoiseLite" uid="uid://c15bhr8uocwcg" path="res://addons/FastNoiseLiteRuntimeShader/demo/2d_demo_noise.tres" id="8_hywjh"]
+
+[sub_resource type="Shader" id="Shader_aesjt"]
+code = "shader_type canvas_item;
+#define CANVAS_ITEM
+#define DEFINE_OVERRIDE
+#define SELECTED_NOISE_TYPE 3
+#define SELECTED_FRACTAL_TYPE 3
+#define SELECTED_DOMAIN_WARP_TYPE 2
+#define SELECTED_DOMAIN_WARP_FRACTAL_TYPE 5
+#define FNL_COMPILLER_OPTIMISATIONS_REQUIRED
+#include \"res://addons/FastNoiseLiteRuntimeShader/FastNoiseLiteLibRedacted.gdshaderinc\"
+#define IS_3D_TEXTURE false
+#define IN_3D_SPACE false
+#define DOMAIN_WARP_ENABLED true
+#define SEAMLESS false
+#define AS_NORMAL_MAP false
+#define NO_GROUPS
+#include \"res://addons/FastNoiseLiteRuntimeShader/FastNoiseLiteBase.gdshaderinc\"
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1tn4x"]
+shader = SubResource("Shader_aesjt")
+shader_parameter/wdh = Vector3(200, 200, 200)
+shader_parameter/uvw = Vector3(1, 1, 1)
+shader_parameter/invert = false
+shader_parameter/output = 0
+shader_parameter/seed = 7
+shader_parameter/frequency = 0.01
+shader_parameter/offset = Vector3(-23.45, 4.2, 29.55)
+shader_parameter/octaves = 10
+shader_parameter/lacunarity = 3.055
+shader_parameter/gain = 0.65
+shader_parameter/weighted_strength = 0.2
+shader_parameter/ping_pong_strength = 2.0
+shader_parameter/amplitude = 26.455
+shader_parameter/_frequency = 0.08
+shader_parameter/fractal_octaves = 1
+shader_parameter/fractal_lacunarity = 5.625
+shader_parameter/fractal_gain = 0.5
+script = ExtResource("3_pfu0a")
+shader_type = 0
+texture_type = 0
+texture_uvw = Vector3(1, 1, 1)
+output = 0
+width = 200
+heigth = 200
+depth = 200
+invert = false
+in_3d_space = false
+seamless = false
+seamless_blend_skirt = 0.2
+as_normal_map = false
+bump_strength = 8
+noise = ExtResource("8_hywjh")
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_b7e0g"]
+width = 200
+height = 200
+generate_mipmaps = false
+seamless_blend_skirt = 0.2
+normalize = false
+noise = ExtResource("8_hywjh")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wabts"]
+shader = ExtResource("4_dekik")
+shader_parameter/noise = SubResource("NoiseTexture2D_b7e0g")
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_jgeth"]
+invert = true
+generate_mipmaps = false
+as_normal_map = true
+bump_strength = 32.0
+normalize = false
+noise = ExtResource("2_mk0gu")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vdpm8"]
+render_priority = 0
+shader = ExtResource("3_1wdp3")
+shader_parameter/mode = false
+shader_parameter/uvw = Vector3(1, 1, 1)
+shader_parameter/noise = SubResource("NoiseTexture2D_jgeth")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_ymya4"]
+material = SubResource("ShaderMaterial_vdpm8")
+
+[sub_resource type="Shader" id="Shader_u3lwt"]
+code = "shader_type spatial;
+render_mode depth_prepass_alpha,cull_back,depth_draw_always;
+#define DEFINE_OVERRIDE
+#define SELECTED_NOISE_TYPE 1
+#define SELECTED_FRACTAL_TYPE 3
+#define SELECTED_DOMAIN_WARP_TYPE 0
+#define SELECTED_DOMAIN_WARP_FRACTAL_TYPE 4
+#define FNL_COMPILLER_OPTIMISATIONS_REQUIRED
+#include \"res://addons/FastNoiseLiteRuntimeShader/FastNoiseLiteLibRedacted.gdshaderinc\"
+#define IS_3D_TEXTURE false
+#define IN_3D_SPACE false
+#define DOMAIN_WARP_ENABLED false
+#define SEAMLESS false
+#define AS_NORMAL_MAP true
+#define NO_GROUPS
+#include \"res://addons/FastNoiseLiteRuntimeShader/FastNoiseLiteBase.gdshaderinc\"
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8mex3"]
+render_priority = 0
+shader = SubResource("Shader_u3lwt")
+shader_parameter/wdh = Vector3(512, 512, 512)
+shader_parameter/uvw = Vector3(1, 1, 1)
+shader_parameter/invert = true
+shader_parameter/output = 0
+shader_parameter/seed = 2
+shader_parameter/frequency = 0.0042
+shader_parameter/offset = Vector3(52.95, -31.75, -17)
+shader_parameter/octaves = 4
+shader_parameter/lacunarity = 2.0
+shader_parameter/gain = 0.32
+shader_parameter/weighted_strength = 0.0
+shader_parameter/ping_pong_strength = 2.0
+shader_parameter/bump_strength = 8.0
+script = ExtResource("3_pfu0a")
+shader_type = 1
+texture_type = 0
+texture_uvw = Vector3(1, 1, 1)
+output = 0
+width = 512
+heigth = 512
+depth = 512
+invert = true
+in_3d_space = false
+seamless = false
+seamless_blend_skirt = 0.1
+as_normal_map = true
+bump_strength = 32
+noise = ExtResource("2_mk0gu")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_bwyv2"]
+material = SubResource("ShaderMaterial_8mex3")
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_inuep"]
+width = 256
+height = 256
+in_3d_space = true
+generate_mipmaps = false
+seamless = true
+seamless_blend_skirt = 0.2
+normalize = false
+noise = ExtResource("1_vxhhv")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_e22pf"]
+render_priority = 0
+shader = ExtResource("3_1wdp3")
+shader_parameter/mode = false
+shader_parameter/uvw = Vector3(1, 1, 1)
+shader_parameter/noise = SubResource("NoiseTexture2D_inuep")
+
+[sub_resource type="BoxMesh" id="BoxMesh_lcr5i"]
+material = SubResource("ShaderMaterial_e22pf")
+size = Vector3(2, 2, 2)
+
+[sub_resource type="Shader" id="Shader_40771"]
+code = "shader_type spatial;
+render_mode depth_prepass_alpha,cull_back,depth_draw_always;
+#define DEFINE_OVERRIDE
+#define SELECTED_NOISE_TYPE 0
+#define SELECTED_FRACTAL_TYPE 0
+#define SELECTED_DOMAIN_WARP_TYPE 2
+#define SELECTED_DOMAIN_WARP_FRACTAL_TYPE 4
+#define FNL_COMPILLER_OPTIMISATIONS_REQUIRED
+#include \"res://addons/FastNoiseLiteRuntimeShader/FastNoiseLiteLibRedacted.gdshaderinc\"
+#define IS_3D_TEXTURE false
+#define IN_3D_SPACE true
+#define DOMAIN_WARP_ENABLED true
+#define SEAMLESS true
+#define AS_NORMAL_MAP false
+#define NO_GROUPS
+#include \"res://addons/FastNoiseLiteRuntimeShader/FastNoiseLiteBase.gdshaderinc\"
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_kh73f"]
+render_priority = 0
+shader = SubResource("Shader_40771")
+shader_parameter/wdh = Vector3(256, 256, 256)
+shader_parameter/uvw = Vector3(1, 1, 1)
+shader_parameter/invert = false
+shader_parameter/seamless_blend_skirt = 0.2
+shader_parameter/output = 0
+shader_parameter/seed = 4
+shader_parameter/frequency = 0.01
+shader_parameter/offset = Vector3(-28.3, 38.8, 8.45)
+shader_parameter/octaves = 3
+shader_parameter/lacunarity = 2.0
+shader_parameter/gain = 0.5
+shader_parameter/weighted_strength = 0.0
+shader_parameter/amplitude = 30.0
+shader_parameter/_frequency = 0.05
+shader_parameter/fractal_octaves = 5
+shader_parameter/fractal_lacunarity = 6.0
+shader_parameter/fractal_gain = 0.5
+script = ExtResource("3_pfu0a")
+shader_type = 1
+texture_type = 0
+texture_uvw = Vector3(1, 1, 1)
+output = 0
+width = 256
+heigth = 256
+depth = 256
+invert = false
+in_3d_space = true
+seamless = true
+seamless_blend_skirt = 0.2
+as_normal_map = false
+bump_strength = 32
+noise = ExtResource("1_vxhhv")
+
+[sub_resource type="BoxMesh" id="BoxMesh_jlwwg"]
+material = SubResource("ShaderMaterial_kh73f")
+size = Vector3(2, 2, 2)
+
+[sub_resource type="NoiseTexture3D" id="NoiseTexture3D_jn820"]
+width = 128
+height = 128
+depth = 128
+normalize = false
+color_ramp = ExtResource("4_6pe42")
+noise = ExtResource("6_n2irk")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_d3202"]
+render_priority = 0
+shader = ExtResource("3_1wdp3")
+shader_parameter/mode = true
+shader_parameter/uvw = Vector3(2, 2, 2)
+shader_parameter/noise3d = SubResource("NoiseTexture3D_jn820")
+
+[sub_resource type="SphereMesh" id="SphereMesh_h5yio"]
+material = SubResource("ShaderMaterial_d3202")
+radius = 1.0
+height = 2.0
+
+[sub_resource type="Shader" id="Shader_wj4s6"]
+code = "shader_type spatial;
+render_mode depth_prepass_alpha,cull_back,depth_draw_always;
+#define DEFINE_OVERRIDE
+#define SELECTED_NOISE_TYPE 2
+#define SELECTED_FRACTAL_TYPE 3
+#define SELECTED_DOMAIN_WARP_TYPE 0
+#define SELECTED_DOMAIN_WARP_FRACTAL_TYPE 4
+#define FNL_COMPILLER_OPTIMISATIONS_REQUIRED
+#include \"res://addons/FastNoiseLiteRuntimeShader/FastNoiseLiteLibRedacted.gdshaderinc\"
+#define IS_3D_TEXTURE true
+#define IN_3D_SPACE false
+#define DOMAIN_WARP_ENABLED false
+#define SEAMLESS false
+#define AS_NORMAL_MAP false
+#define NO_GROUPS
+#include \"res://addons/FastNoiseLiteRuntimeShader/FastNoiseLiteBase.gdshaderinc\"
+"
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_d5xbl"]
+gradient = ExtResource("4_6pe42")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_iopj6"]
+render_priority = 0
+shader = SubResource("Shader_wj4s6")
+shader_parameter/wdh = Vector3(128, 128, 128)
+shader_parameter/uvw = Vector3(2, 2, 2)
+shader_parameter/invert = false
+shader_parameter/output = 0
+shader_parameter/seed = 0
+shader_parameter/frequency = 0.056
+shader_parameter/offset = Vector3(0, 0, 0)
+shader_parameter/octaves = 2
+shader_parameter/lacunarity = 1.38
+shader_parameter/gain = 0.115
+shader_parameter/weighted_strength = 0.0
+shader_parameter/ping_pong_strength = 2.0
+shader_parameter/distance_function = 2
+shader_parameter/jitter = 1.0
+shader_parameter/return_type = 0
+shader_parameter/color_ramp = SubResource("GradientTexture1D_d5xbl")
+script = ExtResource("3_pfu0a")
+shader_type = 1
+texture_type = 1
+texture_uvw = Vector3(2, 2, 2)
+output = 0
+width = 128
+heigth = 128
+depth = 128
+invert = false
+in_3d_space = false
+seamless = false
+seamless_blend_skirt = 0.1
+as_normal_map = false
+bump_strength = 8
+color_ramp = ExtResource("4_6pe42")
+noise = ExtResource("6_n2irk")
+
+[sub_resource type="SphereMesh" id="SphereMesh_iwg16"]
+material = SubResource("ShaderMaterial_iopj6")
+radius = 1.0
+height = 2.0
+
+[node name="DemoNode" type="Node"]
+
+[node name="2D Demo" type="Node2D" parent="."]
+
+[node name="NoiseShaderMaterial" type="Polygon2D" parent="2D Demo"]
+material = SubResource("ShaderMaterial_1tn4x")
+position = Vector2(-140, 0)
+polygon = PackedVector2Array(-100, -100, 150, -150, 100, 100, -66.2119, 100, -100, 100)
+
+[node name="Label" type="Label" parent="2D Demo/NoiseShaderMaterial"]
+offset_left = -121.0
+offset_top = -130.0
+offset_right = 103.0
+offset_bottom = -107.0
+theme_override_colors/font_color = Color(1, 0.54902, 0.282353, 1)
+text = "FastNoiseLiteShaderMaterial
+"
+
+[node name="NoiseTexture2D" type="Polygon2D" parent="2D Demo"]
+material = SubResource("ShaderMaterial_wabts")
+position = Vector2(140, 0)
+polygon = PackedVector2Array(-100, -100, 150, -150, 100, 100, -100, 100)
+
+[node name="Label" type="Label" parent="2D Demo/NoiseTexture2D"]
+offset_left = -121.0
+offset_top = -130.0
+offset_right = 103.0
+offset_bottom = -107.0
+theme_override_colors/font_color = Color(1, 0.54902, 0.282353, 1)
+text = "NoiseTextue2D
+"
+
+[node name="3D Demo" type="Node3D" parent="."]
+
+[node name="Default-Plane-NormalMap-Inverted" type="MeshInstance3D" parent="3D Demo"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.2, 0, 1)
+mesh = SubResource("PlaneMesh_ymya4")
+skeleton = NodePath("../..")
+
+[node name="Label3D" type="Label3D" parent="3D Demo/Default-Plane-NormalMap-Inverted"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2289, 0)
+billboard = 1
+alpha_cut = 1
+text = "NoiseTexture2D
+NormalMap
+Inverted
+"
+
+[node name="Shader-Plane-NormalMap-Inverted" type="MeshInstance3D" parent="3D Demo"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.2, 0, -1)
+mesh = SubResource("PlaneMesh_bwyv2")
+skeleton = NodePath("../..")
+
+[node name="Label3D" type="Label3D" parent="3D Demo/Shader-Plane-NormalMap-Inverted"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2289, 0)
+billboard = 1
+alpha_cut = 1
+text = "NoiseShader
+NormalMap
+Inverted
+"
+
+[node name="Default-In3Dspace-Seamless" type="MeshInstance3D" parent="3D Demo"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.02)
+mesh = SubResource("BoxMesh_lcr5i")
+skeleton = NodePath("../..")
+
+[node name="Label3D" type="Label3D" parent="3D Demo/Default-In3Dspace-Seamless"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4868, 0)
+billboard = 1
+alpha_cut = 1
+modulate = Color(1, 0.54902, 0.282353, 1)
+text = "NoiseTexture2D
+Seamless
+In 3D Space
+"
+
+[node name="Shader-In3Dspace-Seamless" type="MeshInstance3D" parent="3D Demo"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.02)
+mesh = SubResource("BoxMesh_jlwwg")
+skeleton = NodePath("../..")
+
+[node name="Label3D" type="Label3D" parent="3D Demo/Shader-In3Dspace-Seamless"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4868, 0)
+billboard = 1
+alpha_cut = 1
+modulate = Color(1, 0.54902, 0.282353, 1)
+text = "NoiseShader
+Seamless
+In 3D Space
+"
+
+[node name="NoiseTexture3D-Celular-ColorRamp" type="MeshInstance3D" parent="3D Demo"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.2, 0, 1.02)
+mesh = SubResource("SphereMesh_h5yio")
+skeleton = NodePath("../..")
+
+[node name="Label3D" type="Label3D" parent="3D Demo/NoiseTexture3D-Celular-ColorRamp"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4868, 0)
+billboard = 1
+alpha_cut = 1
+text = "NoiseTexture3D
+128x128x128
+Cellular
+"
+
+[node name="Shader-Celular-ColorRamp" type="MeshInstance3D" parent="3D Demo"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.2, 0, -1.02)
+mesh = SubResource("SphereMesh_iwg16")
+skeleton = NodePath("../..")
+
+[node name="Label3D" type="Label3D" parent="3D Demo/Shader-Celular-ColorRamp"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4868, 0)
+billboard = 1
+alpha_cut = 1
+text = "NoiseShader
+128x128x128
+Cellular
+"

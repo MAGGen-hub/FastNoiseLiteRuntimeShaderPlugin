@@ -11,7 +11,7 @@ func _can_handle(object):
 
 # Hide shader uniforms
 func _parse_property(object, type, name, hint_type, hint_string, usage_flags, wide):
-	if name.begins_with("shader_parameter/") and not name.contains("debug"):
+	if name.begins_with("shader_parameter/"): #and not name.contains("debug"):
 		return true
 
 # Amogus joke
@@ -23,7 +23,7 @@ func _parse_group(object, group):
 		amogus.set_anchors_preset(Control.PRESET_CENTER)
 		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
 		label.text = "No parameters.\nOnly Amogus =)"
-		amogus.texture = preload("icon2.png")
+		amogus.texture = preload("shader_parameters_icon.png")
 		amogus.expand_mode = TextureRect.SIZE_EXPAND_FILL
 		hbox.custom_minimum_size = Vector2(1,110);
 		hbox.update_minimum_size()

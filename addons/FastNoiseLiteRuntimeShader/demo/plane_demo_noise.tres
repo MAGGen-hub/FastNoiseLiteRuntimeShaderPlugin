@@ -1,9 +1,9 @@
 [gd_resource type="FastNoiseLite" format=3 uid="uid://dxndd7eti4emt"]
 
 [resource]
-seed = 2
-frequency = 0.0042
-offset = Vector3(52.95, -31.75, -17)
+seed = 3
+frequency = 0.0032
+offset = Vector3(151.35, 13, -15.4)
 fractal_type = 3
 fractal_octaves = 4
 fractal_gain = 0.32

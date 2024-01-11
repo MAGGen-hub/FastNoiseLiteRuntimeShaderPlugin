@@ -9,7 +9,7 @@
 [ext_resource type="FastNoiseLite" uid="uid://dl62i2nuhmgc0" path="res://addons/FastNoiseLiteRuntimeShader/demo/sphere_demo_noise.tres" id="6_n2irk"]
 [ext_resource type="FastNoiseLite" uid="uid://c15bhr8uocwcg" path="res://addons/FastNoiseLiteRuntimeShader/demo/2d_demo_noise.tres" id="8_hywjh"]
 
-[sub_resource type="Shader" id="Shader_aesjt"]
+[sub_resource type="Shader" id="Shader_57e7k"]
 code = "shader_type canvas_item;
 #define CANVAS_ITEM
 #define DEFINE_OVERRIDE
@@ -18,25 +18,26 @@ code = "shader_type canvas_item;
 #define SELECTED_DOMAIN_WARP_TYPE 2
 #define SELECTED_DOMAIN_WARP_FRACTAL_TYPE 5
 #define FNL_COMPILLER_OPTIMISATIONS_REQUIRED
-#include \"res://addons/FastNoiseLiteRuntimeShader/FastNoiseLiteLibRedacted.gdshaderinc\"
+#include \"res://addons/FastNoiseLiteRuntimeShader/FastNoiseLiteLib.gdshaderinc\"
 #define IS_3D_TEXTURE false
-#define IN_3D_SPACE false
+#define IN_3D_SPACE true
 #define DOMAIN_WARP_ENABLED true
-#define SEAMLESS false
+#define SEAMLESS true
 #define AS_NORMAL_MAP false
 #define NO_GROUPS
 #include \"res://addons/FastNoiseLiteRuntimeShader/FastNoiseLiteBase.gdshaderinc\"
 "
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_1tn4x"]
-shader = SubResource("Shader_aesjt")
+shader = SubResource("Shader_57e7k")
 shader_parameter/wdh = Vector3(200, 200, 200)
-shader_parameter/uvw = Vector3(1, 1, 1)
+shader_parameter/uvw = Vector3(200, 200, 200)
 shader_parameter/invert = false
+shader_parameter/seamless_blend_skirt = 0.2
 shader_parameter/output = 0
 shader_parameter/seed = 7
 shader_parameter/frequency = 0.01
-shader_parameter/offset = Vector3(-23.45, 4.2, 29.55)
+shader_parameter/offset = Vector3(-51.25, 42.95, 20.5)
 shader_parameter/octaves = 10
 shader_parameter/lacunarity = 3.055
 shader_parameter/gain = 0.65
@@ -50,14 +51,14 @@ shader_parameter/fractal_gain = 0.5
 script = ExtResource("3_pfu0a")
 shader_type = 0
 texture_type = 0
-texture_uvw = Vector3(1, 1, 1)
+texture_uvw = Vector3(200, 200, 200)
 output = 0
 width = 200
 heigth = 200
 depth = 200
 invert = false
-in_3d_space = false
-seamless = false
+in_3d_space = true
+seamless = true
 seamless_blend_skirt = 0.2
 as_normal_map = false
 bump_strength = 8
@@ -66,13 +67,16 @@ noise = ExtResource("8_hywjh")
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_b7e0g"]
 width = 200
 height = 200
+in_3d_space = true
 generate_mipmaps = false
+seamless = true
 seamless_blend_skirt = 0.2
 normalize = false
 noise = ExtResource("8_hywjh")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_wabts"]
 shader = ExtResource("4_dekik")
+shader_parameter/mode = false
 shader_parameter/noise = SubResource("NoiseTexture2D_b7e0g")
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_jgeth"]
@@ -93,7 +97,7 @@ shader_parameter/noise = SubResource("NoiseTexture2D_jgeth")
 [sub_resource type="PlaneMesh" id="PlaneMesh_ymya4"]
 material = SubResource("ShaderMaterial_vdpm8")
 
-[sub_resource type="Shader" id="Shader_u3lwt"]
+[sub_resource type="Shader" id="Shader_utoe7"]
 code = "shader_type spatial;
 render_mode depth_prepass_alpha,cull_back,depth_draw_always;
 #define DEFINE_OVERRIDE
@@ -102,7 +106,7 @@ render_mode depth_prepass_alpha,cull_back,depth_draw_always;
 #define SELECTED_DOMAIN_WARP_TYPE 0
 #define SELECTED_DOMAIN_WARP_FRACTAL_TYPE 4
 #define FNL_COMPILLER_OPTIMISATIONS_REQUIRED
-#include \"res://addons/FastNoiseLiteRuntimeShader/FastNoiseLiteLibRedacted.gdshaderinc\"
+#include \"res://addons/FastNoiseLiteRuntimeShader/FastNoiseLiteLib.gdshaderinc\"
 #define IS_3D_TEXTURE false
 #define IN_3D_SPACE false
 #define DOMAIN_WARP_ENABLED false
@@ -114,14 +118,14 @@ render_mode depth_prepass_alpha,cull_back,depth_draw_always;
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8mex3"]
 render_priority = 0
-shader = SubResource("Shader_u3lwt")
+shader = SubResource("Shader_utoe7")
 shader_parameter/wdh = Vector3(512, 512, 512)
 shader_parameter/uvw = Vector3(1, 1, 1)
 shader_parameter/invert = true
 shader_parameter/output = 0
-shader_parameter/seed = 2
-shader_parameter/frequency = 0.0042
-shader_parameter/offset = Vector3(52.95, -31.75, -17)
+shader_parameter/seed = 3
+shader_parameter/frequency = 0.0032
+shader_parameter/offset = Vector3(151.35, 13, -15.4)
 shader_parameter/octaves = 4
 shader_parameter/lacunarity = 2.0
 shader_parameter/gain = 0.32
@@ -168,7 +172,7 @@ shader_parameter/noise = SubResource("NoiseTexture2D_inuep")
 material = SubResource("ShaderMaterial_e22pf")
 size = Vector3(2, 2, 2)
 
-[sub_resource type="Shader" id="Shader_40771"]
+[sub_resource type="Shader" id="Shader_uge0q"]
 code = "shader_type spatial;
 render_mode depth_prepass_alpha,cull_back,depth_draw_always;
 #define DEFINE_OVERRIDE
@@ -177,7 +181,7 @@ render_mode depth_prepass_alpha,cull_back,depth_draw_always;
 #define SELECTED_DOMAIN_WARP_TYPE 2
 #define SELECTED_DOMAIN_WARP_FRACTAL_TYPE 4
 #define FNL_COMPILLER_OPTIMISATIONS_REQUIRED
-#include \"res://addons/FastNoiseLiteRuntimeShader/FastNoiseLiteLibRedacted.gdshaderinc\"
+#include \"res://addons/FastNoiseLiteRuntimeShader/FastNoiseLiteLib.gdshaderinc\"
 #define IS_3D_TEXTURE false
 #define IN_3D_SPACE true
 #define DOMAIN_WARP_ENABLED true
@@ -189,15 +193,15 @@ render_mode depth_prepass_alpha,cull_back,depth_draw_always;
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_kh73f"]
 render_priority = 0
-shader = SubResource("Shader_40771")
-shader_parameter/wdh = Vector3(256, 256, 256)
+shader = SubResource("Shader_uge0q")
+shader_parameter/wdh = Vector3(256, 256, 64)
 shader_parameter/uvw = Vector3(1, 1, 1)
 shader_parameter/invert = false
 shader_parameter/seamless_blend_skirt = 0.2
 shader_parameter/output = 0
 shader_parameter/seed = 4
 shader_parameter/frequency = 0.01
-shader_parameter/offset = Vector3(-28.3, 38.8, 8.45)
+shader_parameter/offset = Vector3(165, 115.8, -10.1)
 shader_parameter/octaves = 3
 shader_parameter/lacunarity = 2.0
 shader_parameter/gain = 0.5
@@ -214,7 +218,7 @@ texture_uvw = Vector3(1, 1, 1)
 output = 0
 width = 256
 heigth = 256
-depth = 256
+depth = 64
 invert = false
 in_3d_space = true
 seamless = true
@@ -247,7 +251,7 @@ material = SubResource("ShaderMaterial_d3202")
 radius = 1.0
 height = 2.0
 
-[sub_resource type="Shader" id="Shader_wj4s6"]
+[sub_resource type="Shader" id="Shader_sdfkr"]
 code = "shader_type spatial;
 render_mode depth_prepass_alpha,cull_back,depth_draw_always;
 #define DEFINE_OVERRIDE
@@ -256,7 +260,7 @@ render_mode depth_prepass_alpha,cull_back,depth_draw_always;
 #define SELECTED_DOMAIN_WARP_TYPE 0
 #define SELECTED_DOMAIN_WARP_FRACTAL_TYPE 4
 #define FNL_COMPILLER_OPTIMISATIONS_REQUIRED
-#include \"res://addons/FastNoiseLiteRuntimeShader/FastNoiseLiteLibRedacted.gdshaderinc\"
+#include \"res://addons/FastNoiseLiteRuntimeShader/FastNoiseLiteLib.gdshaderinc\"
 #define IS_3D_TEXTURE true
 #define IN_3D_SPACE false
 #define DOMAIN_WARP_ENABLED false
@@ -266,19 +270,19 @@ render_mode depth_prepass_alpha,cull_back,depth_draw_always;
 #include \"res://addons/FastNoiseLiteRuntimeShader/FastNoiseLiteBase.gdshaderinc\"
 "
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_d5xbl"]
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_rlexm"]
 gradient = ExtResource("4_6pe42")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_iopj6"]
 render_priority = 0
-shader = SubResource("Shader_wj4s6")
+shader = SubResource("Shader_sdfkr")
 shader_parameter/wdh = Vector3(128, 128, 128)
 shader_parameter/uvw = Vector3(2, 2, 2)
 shader_parameter/invert = false
 shader_parameter/output = 0
 shader_parameter/seed = 0
 shader_parameter/frequency = 0.056
-shader_parameter/offset = Vector3(0, 0, 0)
+shader_parameter/offset = Vector3(65.8, -25.7, 37.4)
 shader_parameter/octaves = 2
 shader_parameter/lacunarity = 1.38
 shader_parameter/gain = 0.115
@@ -287,7 +291,7 @@ shader_parameter/ping_pong_strength = 2.0
 shader_parameter/distance_function = 2
 shader_parameter/jitter = 1.0
 shader_parameter/return_type = 0
-shader_parameter/color_ramp = SubResource("GradientTexture1D_d5xbl")
+shader_parameter/color_ramp = SubResource("GradientTexture1D_rlexm")
 script = ExtResource("3_pfu0a")
 shader_type = 1
 texture_type = 1

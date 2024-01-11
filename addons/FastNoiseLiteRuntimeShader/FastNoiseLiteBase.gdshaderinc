@@ -36,7 +36,7 @@
 
 //Include FNL_lib
 #define FNL_COMPILLER_OPTIMISATIONS_REQUIRED
-#include "res://addons/FastNoiseLiteRuntimeShader/FastNoiseLiteLibRedacted.gdshaderinc"
+#include "res://addons/FastNoiseLiteRuntimeShader/FastNoiseLiteLib.gdshaderinc"
 ///WARNING! WARNING! WARNING! WARNING! WARNING! WARNING! WARNING!
 // DO NOT use "res://addons/FastNoiseLiteRuntimeShader/FastNoiseLiteLibOriginal.gdshaderinc"
 // And DO NOT remove #define FNL_COMPILLER_OPTIMISATIONS_REQUIRED
@@ -154,11 +154,12 @@ uniform float fractal_gain = 0.5;
 //endregion
 //endregion
 
-//uniform vec3 debug = vec3(0);
+
 #if IS_3D_TEXTURE
 #undef AS_NORMAL_MAP
 #define AS_NORMAL_MAP false
 #endif
+
 // Method to access generated noise values
 float gen_noise(vec3 coords){
 	//Domain Warp Section
@@ -205,7 +206,6 @@ float gen_noise(vec3 coords){
 		#endif
 		//Domain Warp (not usued here)
 		0, 0.0);
-	
 	// Is in 3D space?
 	#if IS_3D_TEXTURE
 	float noise_value = (fnlGetNoise3D(noise,coords.x,coords.y, coords.z)+1.0)/2.0;
@@ -217,41 +217,43 @@ float gen_noise(vec3 coords){
 	return invert ? 1.0-noise_value : noise_value;
 }
 
-//This const was created only to make results 100% equal to output of NoiseTextures3D
-//It can be easily removed if you want to copy this method to your custom shader
-//But want it to work a litle faster
-//Just delete the const and next things from code:
-// -vec3(0,y_offset,0)
-// +y_offset*skirt_size.y
-// -vec2(0,y_offset)
-// +y_offset*skirt_size.z
-const float y_offset = 0.45;
+#if IS_3D_TEXTURE
+#define OFFSET offset
+#define UVW uvw
+#define WDH wdh
+#else
+#define OFFSET offset.xzy
+#define UVW uvw
+#define WDH wdh.xzy
+#endif
 
-// Full port of this code: https://github.com/godotengine/godot/blob/07b88600b793104b21244aa36d0cc37b689e9b95/modules/noise/noise.h#L85
-float generate(vec3 coords){
+// GENERATE NOISE TEXTURE FOR DIFFERENT MODES
+// Seamless: based of this code: https://github.com/godotengine/godot/blob/07b88600b793104b21244aa36d0cc37b689e9b95/modules/noise/noise.h#L85
+float make(vec3 coords){
 	#if !SEAMLESS
-		return gen_noise(coords);
+		return gen_noise(coords+OFFSET);
 	#else
+	vec4 skirt = vec4(WDH,0.0);
+	vec3 skirt_size = WDH*seamless_blend_skirt;
+	vec3 new_coords = mod(coords+0.5*WDH,WDH);
+	vec3 off_coords=new_coords+OFFSET;
 	#if IS_3D_TEXTURE
-	vec4 skirt = vec4(wdh,0.0);
-	vec3 skirt_size = wdh*seamless_blend_skirt;
-	vec3 new_coords = mod(coords+0.5*wdh,wdh);
-	vec3 a = 1.0 - smoothstep(0.1,0.9,new_coords/skirt_size-vec3(0,y_offset,0));
+	vec3 a = 1.0 - smoothstep(0.1,0.9,new_coords/skirt_size);
 	if (new_coords.x < skirt_size.x){
 		float x01y00z00 = mix(
-			gen_noise(new_coords),
-			gen_noise(new_coords + skirt.xww),a.x);
-		if (new_coords.y < skirt_size.y+y_offset*skirt_size.y){
+			gen_noise(off_coords),
+			gen_noise(off_coords + skirt.xww),a.x);
+		if (new_coords.y < skirt_size.y){
 			float x01y11z00 = mix(
-				gen_noise(new_coords + skirt.wyw),
-				gen_noise(new_coords + skirt.xyw),a.x);
+				gen_noise(off_coords + skirt.wyw),
+				gen_noise(off_coords + skirt.xyw),a.x);
 			if (new_coords.z < skirt_size.z){
 				float x01y00z11 = mix(
-					gen_noise(new_coords + skirt.wwz),
-					gen_noise(new_coords + skirt.xwz),a.x);
+					gen_noise(off_coords + skirt.wwz),
+					gen_noise(off_coords + skirt.xwz),a.x);
 				float x01y11z11 = mix(
-					gen_noise(new_coords + skirt.wyz),
-					gen_noise(new_coords + skirt.xyz),a.x);
+					gen_noise(off_coords + skirt.wyz),
+					gen_noise(off_coords + skirt.xyz),a.x);
 				return mix(
 					mix(x01y00z00,x01y11z00,a.y),
 					mix(x01y00z11,x01y11z11,a.y),a.z);
@@ -260,20 +262,20 @@ float generate(vec3 coords){
 		}
 		if (new_coords.z < skirt_size.z){
 			float x01y00z11= mix(
-				gen_noise(new_coords + skirt.wwz),
-				gen_noise(new_coords + skirt.xwz),a.x);
+				gen_noise(off_coords + skirt.wwz),
+				gen_noise(off_coords + skirt.xwz),a.x);
 			return mix(x01y00z00,x01y00z11,a.z);
 		}
 		return x01y00z00;
 	}
-	if (new_coords.y < skirt_size.y+y_offset*skirt_size.y){
+	if (new_coords.y < skirt_size.y){
 		float x00y01z00 = mix(
-			gen_noise(new_coords),
-			gen_noise(new_coords + skirt.wyw),a.y);
+			gen_noise(off_coords),
+			gen_noise(off_coords + skirt.wyw),a.y);
 		if (new_coords.z < skirt_size.z){
 			float x00y01z11= mix(
-				gen_noise(new_coords + skirt.wwz),
-				gen_noise(new_coords + skirt.wyz),a.y);
+				gen_noise(off_coords + skirt.wwz),
+				gen_noise(off_coords + skirt.wyz),a.y);
 			return mix(x00y01z00,x00y01z11,a.z);
 		}
 		return x00y01z00;
@@ -281,60 +283,53 @@ float generate(vec3 coords){
 	if (new_coords.z < skirt_size.z){
 		float a = 1.0 - smoothstep(0.1,0.9,new_coords.z/skirt_size.z);
 		float x00y00z01 = mix(
-			gen_noise(new_coords),
-			gen_noise(new_coords + skirt.wwz),a);
+			gen_noise(off_coords),
+			gen_noise(off_coords + skirt.wwz),a);
 		return x00y00z01;
 	}
-	return gen_noise(new_coords);//x00y00z00
+	return gen_noise(off_coords);//x00y00z00
 	#elif IN_3D_SPACE
-	vec4 skirt = vec4(wdh,0.0);
-	vec3 skirt_size = wdh*seamless_blend_skirt;
-	vec3 new_coords = mod(coords+0.5*wdh,wdh);
-	vec2 a = 1.0 - smoothstep(0.1,0.9,new_coords.xz/skirt_size.xz-vec2(0,y_offset));
+	vec2 a = 1.0 - smoothstep(0.1,0.9,new_coords.xz/skirt_size.xz);
 	if (new_coords.x < skirt_size.x){
 		float x01z00 = mix(
-			gen_noise(new_coords),
-			gen_noise(new_coords + skirt.xww),a.x);
-		if (new_coords.z < skirt_size.z+y_offset*skirt_size.z){
-			float x01z11= mix(
-				gen_noise(new_coords + skirt.wwz),
-				gen_noise(new_coords + skirt.xwz),a.x);
-			return mix(x01z00,x01z11,a.y);
-		}
-		return x01z00;
-	}
-	if (new_coords.z < skirt_size.z+y_offset*skirt_size.z){
-		float x00z01 = mix(
-			gen_noise(new_coords),
-			gen_noise(new_coords + skirt.wwz),a.y);
-		return x00z01;
-	}
-	return gen_noise(new_coords);//x00y00z00
-	#else //2D texture
-	vec4 skirt = vec4(wdh,0.0);
-	vec3 skirt_size = wdh*seamless_blend_skirt;
-	vec3 new_coords = mod(coords+0.5*wdh,wdh);
-	if (new_coords.x < skirt_size.x){
-		vec2 a = 1.0 - smoothstep(0.1,0.9,new_coords.xz/skirt_size.xz);
-		float x01z00 = mix(
-			gen_noise(new_coords),
-			gen_noise(new_coords + skirt.xww),a.x);
+			gen_noise(off_coords),
+			gen_noise(off_coords + skirt.xww),a.x);
 		if (new_coords.z < skirt_size.z){
 			float x01z11= mix(
-				gen_noise(new_coords + skirt.wwz),
-				gen_noise(new_coords + skirt.xwz),a.x);
+				gen_noise(off_coords + skirt.wwz),
+				gen_noise(off_coords + skirt.xwz),a.x);
 			return mix(x01z00,x01z11,a.y);
 		}
 		return x01z00;
 	}
 	if (new_coords.z < skirt_size.z){
-		float a = 1.0 - smoothstep(0.1,0.9,new_coords.z/skirt_size.z);
 		float x00z01 = mix(
-			gen_noise(new_coords),
-			gen_noise(new_coords + skirt.wwz),a);
+			gen_noise(off_coords),
+			gen_noise(off_coords + skirt.wwz),a.y);
 		return x00z01;
 	}
-	return gen_noise(new_coords);//x00y00z00
+	return gen_noise(off_coords);//x00y00z00
+	#else //2D texture
+	vec2 a = 1.0 - smoothstep(0.1,0.9,new_coords.xz/skirt_size.xz);
+	if (new_coords.x < skirt_size.x){
+		float x01z00 = mix(
+			gen_noise(off_coords),
+			gen_noise(off_coords + skirt.xww),a.x);
+		if (new_coords.z < skirt_size.z){
+			float x01z11= mix(
+				gen_noise(off_coords + skirt.wwz),
+				gen_noise(off_coords + skirt.xwz),a.x);
+			return mix(x01z00,x01z11,a.y);
+		}
+		return x01z00;
+	}
+	if (new_coords.z < skirt_size.z){
+		float x00z01 = mix(
+			gen_noise(off_coords),
+			gen_noise(off_coords + skirt.wwz),a.y);
+		return x00z01;
+	}
+	return gen_noise(off_coords);//x00y00z00
 	#endif
 	#endif
 }
@@ -343,9 +338,9 @@ float generate(vec3 coords){
 #if AS_NORMAL_MAP
 uniform float bump_strength : hint_range(0.0, 32.0, 0.001) = 8.0;
 vec3 to_normal_map(vec3 coords){
-	float here = generate(coords);
-	float to_right = generate(coords + vec3(1.0,0,0));
-	float above = generate(coords + vec3(0,0,1.0));
+	float here = make(coords);
+	float to_right = make(coords + vec3(1.0,0,0));
+	float above = make(coords + vec3(0,0,1.0));
 	vec3 up = (vec3(0,1,(here - above)*bump_strength));
 	vec3 across = (vec3(1,0,(to_right - here)*bump_strength));
 	return normalize(cross(across,up))*0.5+0.5;
@@ -354,31 +349,24 @@ vec3 to_normal_map(vec3 coords){
 
 varying vec3 base_coords;
 void vertex(){
+	// + 0.000005 to fix jitter lag when floor(VERTEX/(uvw+uvw*k))==0 where k is any integer
+	// This bug is located deep inside FNL libruary
+	// just don't set the size of a mesh to uvw+uvw*k + 0.000005 (tecknicaly it's imposible) =D
 	//If in canvas item mode
 	#ifdef CANVAS_ITEM
 	#define ALBEDO COLOR.rgb
 	#define ALPHA COLOR.a
-	// + 0.000005 to fix jitter lag when floor(VERTEX/(uvw+uvw*k))==0 where k is any integer
-	// This bug is located deep inside FNL libruary
-	// just don't set the size of a mesh to uvw+uvw*k + 0.000005 (tecknicaly it's imposible) =D
-	base_coords = vec3(VERTEX/wdh.xz/uvw.xz+0.5 + 0.000005,0.0).xzy;
+	base_coords = vec3(VERTEX,0.0).xzy/UVW+0.5 + 0.000005;
 	#else
-	base_coords = VERTEX/uvw+0.5 + 0.000005;
+	base_coords = VERTEX/UVW+0.5 + 0.000005;
 	#endif
 }
+
 void fragment() {
 	#if AS_NORMAL_MAP
-		ALBEDO = to_normal_map(fract(base_coords)*wdh-0.5+offset
-		#if IN_3D_SPACE || !IS_3D_TEXTURE
-		.xzy
-		#endif
-		);
+		ALBEDO = to_normal_map(fract(base_coords)*WDH-0.5);
 	#else
-		float base_value = generate(fract(base_coords)*wdh-0.5+offset
-		#if IN_3D_SPACE || !IS_3D_TEXTURE
-		.xzy
-		#endif
-		);
+		float base_value = make(fract(base_coords)*WDH-0.5);
 		//Color ramp
 		if (texture(color_ramp,vec2(base_value,0))!=vec4(1,1,1,1)){//color ramp exist
 			float clr_value = clamp(base_value,0.005,0.995);

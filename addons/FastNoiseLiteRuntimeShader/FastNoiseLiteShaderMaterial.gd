@@ -26,22 +26,18 @@ class_name FastNoiseLiteShaderMaterial extends ShaderMaterial
 	set(value):
 		shader_type = value
 		update_shader_defines()
-
 ## Type of the NoiseTexture class that shader will try to emulate.[br]
 @export_enum("2D","3D") var texture_type := 0:#DEFINE CHANGE
 	set(value):
 		texture_type = value
 		notify_property_list_changed()
 		update_shader_defines()
-		if texture_type==0:
-			set_shader_parameter("wdh",Vector3(width,depth,heigth))
-		else:
-			set_shader_parameter("wdh",Vector3(width,heigth,depth))
 ## UVW - 3D UV of the texture.[br][br]
 ## [b]  X[/b] - [member width] scale.[br]
 ## [b]  Y[/b] - [member depth] scale (unused in canvas_item mode).[br]
 ## [b]  Z[/b] - [member heigth] scale.[br][br]
-## [b]Note:[/b] In 2D mode [code]V[/code] component of [b]UV[/b] map controlled by [b]Z[/b].
+## [b]Note:[/b] In 2D mode [code]V[/code] component of [b]UV[/b] map controlled by [b]Z[/b].[br][br]
+## [b]Note:[/b] In [code]canvas_item[/code] works as texture ([Polygon2D]) resolution.
 @export var texture_uvw := Vector3(1,1,1):
 	set(value):
 		texture_uvw = value
@@ -66,11 +62,8 @@ class_name FastNoiseLiteShaderMaterial extends ShaderMaterial
 @export_range(1, 2048, 1, "or_greater", "suffix:px") var heigth := 512:
 	set(value):
 		heigth = value
-		if texture_type==0:
-			set_shader_parameter("wdh",Vector3(width,depth,heigth))
-		else:
-			set_shader_parameter("wdh",Vector3(width,heigth,depth))
-## Depth of the generated texture (in pixels).
+		set_shader_parameter("wdh",Vector3(width,heigth,depth))
+## Depth of the generated texture (in pixelsuvw).
 @export_range(1, 2048, 1, "or_greater", "suffix:px") var depth := 512:
 	set(value):
 		depth = value
@@ -178,7 +171,7 @@ func update_shader_defines():
 #define SELECTED_DOMAIN_WARP_TYPE %d
 #define SELECTED_DOMAIN_WARP_FRACTAL_TYPE %d
 #define FNL_COMPILLER_OPTIMISATIONS_REQUIRED
-#include "res://addons/FastNoiseLiteRuntimeShader/FastNoiseLiteLibRedacted.gdshaderinc"
+#include "res://addons/FastNoiseLiteRuntimeShader/FastNoiseLiteLib.gdshaderinc"
 #define IS_3D_TEXTURE %s
 #define IN_3D_SPACE %s
 #define DOMAIN_WARP_ENABLED %s

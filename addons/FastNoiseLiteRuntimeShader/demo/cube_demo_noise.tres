@@ -3,7 +3,7 @@
 [resource]
 noise_type = 0
 seed = 4
-offset = Vector3(-28.3, 38.8, 8.45)
+offset = Vector3(165, 115.8, -10.1)
 fractal_type = 0
 fractal_octaves = 3
 cellular_distance_function = 3

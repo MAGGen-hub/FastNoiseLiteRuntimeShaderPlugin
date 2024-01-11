@@ -6,7 +6,7 @@ shader_type spatial;
 #define SELECTED_DOMAIN_WARP_TYPE 0
 #define SELECTED_DOMAIN_WARP_FRACTAL_TYPE 0
 #define FNL_COMPILLER_OPTIMISATIONS_REQUIRED
-#include "res://addons/FastNoiseLiteRuntimeShader/FastNoiseLiteLibRedacted.gdshaderinc"
+#include "res://addons/FastNoiseLiteRuntimeShader/FastNoiseLiteLib.gdshaderinc"
 #define IS_3D_TEXTURE false
 #define IN_3D_SPACE false
 #define DOMAIN_WARP_ENABLED false

@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://ccyea54xi8uhr"
-path="res://.godot/imported/icon2.png-e3b5a36ab818a335469c9f8ab6268a1f.ctex"
+path="res://.godot/imported/shader_parameters_icon.png-5a0e1a27f114b0534dcaed26d3d12775.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/FastNoiseLiteRuntimeShader/icon2.png"
-dest_files=["res://.godot/imported/icon2.png-e3b5a36ab818a335469c9f8ab6268a1f.ctex"]
+source_file="res://addons/FastNoiseLiteRuntimeShader/shader_parameters_icon.png"
+dest_files=["res://.godot/imported/shader_parameters_icon.png-5a0e1a27f114b0534dcaed26d3d12775.ctex"]
 
 [params]
 

@@ -1,11 +1,13 @@
 # FastNoiseLite-RuntimeShader-Godot-Plugin
-<img align="left" src="https://raw.githubusercontent.com/MAGGen-hub/FastNoiseLiteRuntimeShaderPlugin/master/previews/noise_shader_material.png" style="width:138px;heigth:138px"/>
+<img align="left" src="https://raw.githubusercontent.com/MAGGen-hub/FastNoiseLiteRuntimeShaderPlugin/master/previews/noise_shader_material.png" style="width:128px;heigth:128px"/>
 
 Adds new type of material to Godot game engine: `FastNoiseLiteShaderMaterial`\
 (__Use the power of GPU__)
 
-Plugin is based on `FastNoiseLiteLibruary`, so please, pay a visit to [official FastNoiseLite  repository](https://github.com/Auburn/FastNoiseLite).
-
+Plugin is based on `FastNoiseLiteLibruary`, so please,\
+pay a visit to [official FastNoiseLite  repository](https://github.com/Auburn/FastNoiseLite).
+  \
+  \
 Material allows user to generate any kind of noise provided by __FNL__ library at runtime on GPU.
   \
   \
@@ -26,7 +28,8 @@ Material provides __direct__ access to `FastNoiseLite` object, skipping intermed
 
 
 __NOTE:__ It might take a few seconds 
-to compile the `Shader` because of library size, but after that you will be able to obtain noise data at runtime with no freezes and delays!
+to compile the `Shader` because of library size, but after that you will be able\
+to obtain noise data at runtime with no freezes and delays!
 
 
 ## Custom FNL Shaders

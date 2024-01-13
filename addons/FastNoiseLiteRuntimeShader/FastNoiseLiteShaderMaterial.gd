@@ -122,7 +122,7 @@ class_name FastNoiseLiteShaderMaterial extends ShaderMaterial
 		color_ramp = value
 		var gdt = GradientTexture1D.new()
 		gdt.gradient = value
-		set_shader_parameter("color_ramp",gdt)
+		set_shader_parameter("color_ramp",gdt if value else null)
 ## Donor instance of the [FastNoiseLite] object.[br][br]
 ## [b]Note:[/b] Used only to provide noise parameters for more than one object.
 @export var noise : FastNoiseLite:

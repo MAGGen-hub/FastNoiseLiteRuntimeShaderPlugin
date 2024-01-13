@@ -9,7 +9,7 @@
 [ext_resource type="FastNoiseLite" uid="uid://dl62i2nuhmgc0" path="res://addons/FastNoiseLiteRuntimeShader/demo/sphere_demo_noise.tres" id="6_n2irk"]
 [ext_resource type="FastNoiseLite" uid="uid://c15bhr8uocwcg" path="res://addons/FastNoiseLiteRuntimeShader/demo/2d_demo_noise.tres" id="8_hywjh"]
 
-[sub_resource type="Shader" id="Shader_eso6c"]
+[sub_resource type="Shader" id="Shader_0d0dw"]
 code = "shader_type canvas_item;
 #define CANVAS_ITEM
 #define DEFINE_OVERRIDE
@@ -29,7 +29,7 @@ code = "shader_type canvas_item;
 "
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_1tn4x"]
-shader = SubResource("Shader_eso6c")
+shader = SubResource("Shader_0d0dw")
 shader_parameter/wdh = Vector3(200, 200, 200)
 shader_parameter/uvw = Vector3(200, 200, 200)
 shader_parameter/invert = false
@@ -97,7 +97,7 @@ shader_parameter/noise = SubResource("NoiseTexture2D_jgeth")
 [sub_resource type="PlaneMesh" id="PlaneMesh_ymya4"]
 material = SubResource("ShaderMaterial_vdpm8")
 
-[sub_resource type="Shader" id="Shader_jwke3"]
+[sub_resource type="Shader" id="Shader_4s57r"]
 code = "shader_type spatial;
 render_mode depth_prepass_alpha,cull_back,depth_draw_always;
 #define DEFINE_OVERRIDE
@@ -118,7 +118,7 @@ render_mode depth_prepass_alpha,cull_back,depth_draw_always;
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8mex3"]
 render_priority = 0
-shader = SubResource("Shader_jwke3")
+shader = SubResource("Shader_4s57r")
 shader_parameter/wdh = Vector3(512, 512, 512)
 shader_parameter/uvw = Vector3(1, 1, 1)
 shader_parameter/invert = true
@@ -172,7 +172,7 @@ shader_parameter/noise = SubResource("NoiseTexture2D_inuep")
 material = SubResource("ShaderMaterial_e22pf")
 size = Vector3(2, 2, 2)
 
-[sub_resource type="Shader" id="Shader_87uda"]
+[sub_resource type="Shader" id="Shader_3woak"]
 code = "shader_type spatial;
 render_mode depth_prepass_alpha,cull_back,depth_draw_always;
 #define DEFINE_OVERRIDE
@@ -193,7 +193,7 @@ render_mode depth_prepass_alpha,cull_back,depth_draw_always;
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_kh73f"]
 render_priority = 0
-shader = SubResource("Shader_87uda")
+shader = SubResource("Shader_3woak")
 shader_parameter/wdh = Vector3(256, 256, 64)
 shader_parameter/uvw = Vector3(1, 1, 1)
 shader_parameter/invert = false
@@ -251,7 +251,7 @@ material = SubResource("ShaderMaterial_d3202")
 radius = 1.0
 height = 2.0
 
-[sub_resource type="Shader" id="Shader_5l3qj"]
+[sub_resource type="Shader" id="Shader_ajwxt"]
 code = "shader_type spatial;
 render_mode depth_prepass_alpha,cull_back,depth_draw_always;
 #define DEFINE_OVERRIDE
@@ -270,12 +270,12 @@ render_mode depth_prepass_alpha,cull_back,depth_draw_always;
 #include \"res://addons/FastNoiseLiteRuntimeShader/FastNoiseLiteBase.gdshaderinc\"
 "
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_nv0tx"]
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_g4l3j"]
 gradient = ExtResource("4_6pe42")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_iopj6"]
 render_priority = 0
-shader = SubResource("Shader_5l3qj")
+shader = SubResource("Shader_ajwxt")
 shader_parameter/wdh = Vector3(128, 128, 128)
 shader_parameter/uvw = Vector3(2, 2, 2)
 shader_parameter/invert = false
@@ -291,7 +291,7 @@ shader_parameter/ping_pong_strength = 2.0
 shader_parameter/distance_function = 2
 shader_parameter/jitter = 1.0
 shader_parameter/return_type = 0
-shader_parameter/color_ramp = SubResource("GradientTexture1D_nv0tx")
+shader_parameter/color_ramp = SubResource("GradientTexture1D_g4l3j")
 script = ExtResource("3_pfu0a")
 shader_type = 1
 texture_type = 1
